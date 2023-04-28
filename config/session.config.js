@@ -1,5 +1,5 @@
 const session = require('express-session')
-// const MongoStore = require('connect-mongo')
+const MongoStore = require('connect-mongo')
 
 // since we are going to USE this middleware in the app.js,
 // let's export it and have it receive a parameter
@@ -23,12 +23,12 @@ module.exports = app => {
         httpOnly: true,
         maxAge: 30000, // 30 * 1000 ms === 30 secs
       },
-    //   store: MongoStore.create({
-    //     mongoUrl: process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/authIntro',
+      store: MongoStore.create({
+        mongoUrl: process.env.MONGODB_URI || 'mongodb://localhost:27017/KA-company-',
 
-    //     // ttl => time to live
-    //     // ttl: 60 * 60 * 24 // 60sec * 60min * 24h => 1 day
-    //   }),
+        // ttl => time to live
+        // ttl: 60 * 60 * 24 // 60sec * 60min * 24h => 1 day
+      }),
     })
   )
 }
