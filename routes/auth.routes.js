@@ -36,14 +36,17 @@ router.get("/login", (req, res, next) => {
 });
 //Post to handle form values : 
 router.post("/login", async(req, res, next) => {
+    try { 
     const user = await User.findOne({username: req.body.username})
     if (!user) {
         res.render('auth/login', {errorMessage: 'You are not a user, plz signup'})
     } else if (user && bcryptjs.compareSync(req.body.password, user.passwordHash)) {
-        res.send(user)
+        req.session.user = user
+        res.redirect('/profile')
     } else {
         res.render('auth/login', {errorMessage: 'Remember your password plz'})
-    }
+    }}
+    catch (error) {console.log(error)}
 });
 
 module.exports = router;
