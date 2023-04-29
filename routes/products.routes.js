@@ -21,8 +21,20 @@ router.get('/products', (req, res) => {
 // Edit the product:
 router.get('/edit/:productId', async(req, res) => {
     const specificProduct = await Product.findById(req.params.productId)
-    console.log("here is a specific", specificProduct)
-    res.render('edit-product', specificProduct)
+    res.render('edit-product', {specificProduct})
+})
+// Send the product after edit :
+router.post('/edit/:productId', async(req, res) => {
+    const {productId} = req.params
+    const updatedProduct = await Product.findByIdAndUpdate((productId), req.body, {new: true})
+    res.redirect('/products/products')
+})
+// Delete product:
+router.get('/delete/:productId', async(req, res) => {
+    const {productId} = req.params
+    const deletedProduct = await Product.findByIdAndDelete(productId)
+    res.redirect('/products/products')
+
 })
 
 module.exports = router;
