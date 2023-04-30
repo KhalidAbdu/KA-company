@@ -20,20 +20,35 @@ router.get('/products', (req, res) => {
     })
 // Edit the product:
 router.get('/edit/:productId', async(req, res) => {
+    try{ 
     const specificProduct = await Product.findById(req.params.productId)
     res.render('edit-product', {specificProduct})
+    }
+    catch {((err) => console.log(err))}
 })
 // Send the product after edit :
 router.post('/edit/:productId', async(req, res) => {
+    try{ 
     const {productId} = req.params
     const updatedProduct = await Product.findByIdAndUpdate((productId), req.body, {new: true})
     res.redirect('/products/products')
+    }
+    catch {((err) => console.log(err))}
 })
 // Delete product:
 router.get('/delete/:productId', async(req, res) => {
+    try{ 
     const {productId} = req.params
     const deletedProduct = await Product.findByIdAndDelete(productId)
     res.redirect('/products/products')
+    }
+    catch {((err) => console.log(err))}
+})
+// Read more about a product : 
+router.get('/details/:productId', async(req, res) => {
+    const {productId} = req.params
+    const oneProduct = await Product.findById(productId)
+    res.render('product-details', {oneProduct})
 
 })
 

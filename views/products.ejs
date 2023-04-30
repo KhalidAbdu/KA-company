@@ -5,8 +5,10 @@
         <li>
             <%- product.name %>
             <%- product.price %>
-            <a href="/products/edit/<%- product._id %>">Edit</a>
-            <a href="/products/delete/<%- product._id %>">Delete</a>
+            <a href="/products/edit/<%- product._id %>">EDIT</a>
+            <a href="/products/delete/<%- product._id %>">DELETE</a>
+            <a href="/products/details/<%- product._id %>">READ MORE</a>
+            <a href="/products/cart/<%- product._id %>">ADD TO CART</a>
         </li>
    <% }); %>
 </ul>
