@@ -1,10 +1,11 @@
 <h1>Products</h1>
 <ul>
     <% allProducts.forEach(product => { %>
-        <img src="<%- product.img %>">
+            <img src="<%- product.img.path %>">
+
         <li>
             <%- product.name %>
-            <%- product.price %>
+            <%- product.price  %>$
             <a href="/products/edit/<%- product._id %>">EDIT</a>
             <a href="/products/delete/<%- product._id %>">DELETE</a>
             <a href="/products/details/<%- product._id %>">READ MORE</a>

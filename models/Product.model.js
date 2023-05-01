@@ -3,8 +3,17 @@ const {Schema, model, default: mongoose, SchemaTypes} = require('mongoose');
 const productSchema = new Schema({
     name:  {type: String, required: true},
     price: {type: Number, required: true, min: 0},
-    img:   {type: String},
-    description: {type: String},
+    img: {
+        path: {
+          type: String,
+          required: true,
+        },
+        filename: {
+          type: String,
+          required: true,
+        },
+      },
+    description: {type: String}
 })
 
 const Product = mongoose.model('Product', productSchema)
