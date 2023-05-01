@@ -75,12 +75,15 @@ router.get('/delete/:productId', async(req, res) => {
     }
     catch {((err) => console.log(err))}
 })
-// Read more about a product : 
+// Read more about a product: 
 router.get('/details/:productId', async(req, res) => {
     const {productId} = req.params
     const oneProduct = await Product.findById(productId)
     res.render('product-details', {oneProduct})
-
+})
+// View cart page: 
+router.get('/cart:productId', async(req, res) => {
+    const {productId} = req.params
 })
 
 module.exports = router;
