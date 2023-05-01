@@ -1,7 +1,9 @@
 const Product = require('../models/Product.model')
 const User = require('../models/User.model')
+const Cart = require('../models/Cart.model')
 const router = require('express').Router()
 const uploader = require('../middleware/cloudinary.config');
+ const {isLoggedIn} = require('../middleware/route-guard') 
 
 
 // Display product form: 
@@ -67,7 +69,7 @@ router.post('/edit/:productId', uploader.single("img"), async(req, res) => {
     catch {((err) => console.log(err))}
 })
 // Delete product:
-router.get('/delete/:productId', async(req, res) => {
+router.get('/delete/:productId', isLoggedIn, async(req, res) => {
     try{ 
     const {productId} = req.params
     const deletedProduct = await Product.findByIdAndDelete(productId)
@@ -77,13 +79,43 @@ router.get('/delete/:productId', async(req, res) => {
 })
 // Read more about a product: 
 router.get('/details/:productId', async(req, res) => {
+  try{ 
     const {productId} = req.params
     const oneProduct = await Product.findById(productId)
     res.render('product-details', {oneProduct})
+  }
+  catch {((err) => console.log(err))}
 })
-// View cart page: 
-router.get('/cart:productId', async(req, res) => {
-    const {productId} = req.params
+// Handle the cart request:
+router.post('/cart/:productId', isLoggedIn, async(req, res) => {
+  try{
+  const {productId} = req.params
+  const specificProduct = await Product.findById(productId)
+  const specificUser = req.session.user
+  const cart = await Cart.findOne({user: specificUser._id})
+  let cartId
+  if (!cart){
+    const newCart = await Cart.create({user: specificUser._id, items:[{product: specificProduct}] })
+    const updatedUser = await User.findByIdAndUpdate(specificUser._id, {cart: newCart}, {new: true})
+    cartId = newCart._id
+  } else { 
+   const updatedCart = await Cart.findByIdAndUpdate(cart._id, {$push:{cart: {items: {product: specificProduct}}}}, {new: true})
+   const updatedUser = await User.findByIdAndUpdate(specificUser._id, {cart: updatedCart}, {new: true})
+   cartId = updatedCart._id
+  }
+  res.redirect(`/products/cart/${cartId}`)
+}
+  catch {((err) => console.log(err))}
 })
-
+// View cart:
+router.get('/cart/:cartId', async(req, res) => {
+  try { 
+    const {cartId} = req.params
+    // written by antonio:
+  const cart = await Cart.findById(cartId).populate({path: "items", populate: {path: "product", model: "Product"}})
+  console.log(cart)
+  res.render('cart', {cart})
+  }
+  catch {((err) => console.log(err))}
+})
 module.exports = router;

@@ -1,5 +1,6 @@
 const {Schema, model, default: mongoose, SchemaTypes} = require('mongoose');
 
+
 const cartSchema = new Schema({
     user: {type: Schema.Types.ObjectId, ref: 'User'},
     items: [{product: {type: Schema.Types.ObjectId, ref: 'Product'}, quantity: {type: Number, default:1} }]
