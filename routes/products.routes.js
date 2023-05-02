@@ -89,29 +89,40 @@ router.get('/details/:productId', async(req, res) => {
 // Handle the cart request:
 router.post('/cart/:productId', isLoggedIn, async(req, res) => {
   try{
-  const {productId} = req.params
-  const specificProduct = await Product.findById(productId)
-  const specificUser = req.session.user
-  const cart = await Cart.findOne({user: specificUser._id})
-  let cartId
-  if (!cart){
-    const newCart = await Cart.create({user: specificUser._id, items:[{product: specificProduct}] })
-    const updatedUser = await User.findByIdAndUpdate(specificUser._id, {cart: newCart}, {new: true})
-    cartId = newCart._id
-  } else { 
-   const updatedCart = await Cart.findByIdAndUpdate(cart._id, {$push:{cart: {items: {product: specificProduct}}}}, {new: true})
-   const updatedUser = await User.findByIdAndUpdate(specificUser._id, {cart: updatedCart}, {new: true})
-   cartId = updatedCart._id
+    const {productId} = req.params
+    const specificProduct = await Product.findById(productId)
+    const specificUser = req.session.user
+    const cart = await Cart.findOne({user: specificUser._id})
+    let cartId
+    if (!cart){
+      const newCart = await Cart.create({user: specificUser._id, items:[{product: specificProduct}] })
+      const updatedUser = await User.findByIdAndUpdate(specificUser._id, {cart: newCart}, {new: true})
+      cartId = newCart._id
+    } else { 
+      let updatedCart
+      const itemIndex = cart.items.findIndex(item => item.product.equals(specificProduct._id))
+      if (itemIndex === -1) {
+        updatedCart = await Cart.findByIdAndUpdate(cart._id, {$push: {items: {product: specificProduct}}}, {new: true})
+      } else {
+        const item = cart.items[itemIndex]
+        item.quantity++
+        updatedCart = await Cart.findByIdAndUpdate(cart._id, {$set: {[`items.${itemIndex}`]: item}}, {new: true})
+      }
+      const updatedUser = await User.findByIdAndUpdate(specificUser._id, {cart: updatedCart}, {new: true})
+      cartId = updatedCart._id
+    }
+    res.redirect(`/products/cart/${cartId}`)
   }
-  res.redirect(`/products/cart/${cartId}`)
-}
-  catch {((err) => console.log(err))}
+  catch (error) {
+    console.log(error)
+  }
 })
+
 // View cart:
 router.get('/cart/:cartId', async(req, res) => {
   try { 
     const {cartId} = req.params
-    // written by antonio:
+    // The following line is written by antonio:
   const cart = await Cart.findById(cartId).populate({path: "items", populate: {path: "product", model: "Product"}})
   console.log(cart)
   res.render('cart', {cart})

@@ -1,5 +1,16 @@
-<h1>Cart</h1>
-<% cart.items.forEach(newCart => { %>
-    <%- newCart.product %>
-    <%- newCart.quantity %>
-    <% }) %>
+
+
+
+
+
+
+
+
+<h1>Welcome to your cart</h1>
+
+<% let cartTotal = 0 %>
+<% cart.items.forEach(item => { %>
+  <p><%- item.product.name %> x <%- item.quantity %> x $<%= item.product.price * item.quantity %></p>
+  <% cartTotal += item.product.price * item.quantity %>
+<% }) %>
+<p>Your cart total is $<%- cartTotal %></p>
