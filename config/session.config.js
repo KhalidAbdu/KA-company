@@ -21,7 +21,7 @@ module.exports = app => {
         sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
         secure: process.env.NODE_ENV === 'production',
         httpOnly: true,
-        maxAge: 30000, // 30 * 1000 ms === 30 secs
+        maxAge: 300000, // 30 * 1000 ms === 30 secs
       },
       store: MongoStore.create({
         mongoUrl: process.env.MONGODB_URI || 'mongodb://localhost:27017/KA-company-',

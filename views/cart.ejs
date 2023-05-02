@@ -1,16 +1,21 @@
 
 
 
-
-
-
-
-
+<!-- just some stupid code with ideas that maybe will work if not stick with the basics and remove the delete -->
 <h1>Welcome to your cart</h1>
 
 <% let cartTotal = 0 %>
 <% cart.items.forEach(item => { %>
-  <p><%- item.product.name %> x <%- item.quantity %> x $<%= item.product.price * item.quantity %></p>
-  <% cartTotal += item.product.price * item.quantity %>
+  <p><%- item.product.name %> 
+    <form action="/cart/<%- item._id %>/increment" method="POST">
+      <button type="submit">+</button>
+    </form>
+    No of items: <%- item.quantity %>
+    <form action="/cart/<%- item._id %>/decrement" method="POST">
+      <button type="submit">-</button>
+    </form>
+   Price: $<%- item.product.price * item.quantity %></p>
+  <p><% cartTotal += item.product.price * item.quantity %></p>
 <% }) %>
+
 <p>Your cart total is $<%- cartTotal %></p>

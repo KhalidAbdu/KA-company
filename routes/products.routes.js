@@ -7,11 +7,11 @@ const uploader = require('../middleware/cloudinary.config');
 
 
 // Display product form: 
-router.get('/create', (req, res) => {
+router.get('/create',isLoggedIn, (req, res) => {
     res.render('create-product')
 })
 // Create the product:
-router.post('/create', uploader.single("img"), (req, res, next) => {
+router.post('/create', isLoggedIn, uploader.single("img"), (req, res, next) => {
     console.log('file is: ', req.file)
     if (!req.file) {
         console.log(req.file.img)
@@ -37,7 +37,7 @@ router.get('/products', (req, res) => {
     .catch((error) => res.render('Error', {errorMessage: 'Can not get data from database, sorry'}))
     })
 // Edit the product:
-router.get('/edit/:productId', async(req, res) => {
+router.get('/edit/:productId', isLoggedIn, async(req, res) => {
     try{ 
     const specificProduct = await Product.findById(req.params.productId)
     res.render('edit-product', {specificProduct})
@@ -45,7 +45,7 @@ router.get('/edit/:productId', async(req, res) => {
     catch {((err) => console.log(err))}
 })
 // Send the product after edit :
-router.post('/edit/:productId', uploader.single("img"), async(req, res) => {
+router.post('/edit/:productId', isLoggedIn,  uploader.single("img"), async(req, res) => {
     console.log('file is: ', req.file)
     if (!req.file) {
         console.log(req.file.img)
@@ -117,9 +117,8 @@ router.post('/cart/:productId', isLoggedIn, async(req, res) => {
     console.log(error)
   }
 })
-
 // View cart:
-router.get('/cart/:cartId', async(req, res) => {
+router.get('/cart/:cartId', isLoggedIn, async(req, res) => {
   try { 
     const {cartId} = req.params
     // The following line is written by antonio:
@@ -127,6 +126,43 @@ router.get('/cart/:cartId', async(req, res) => {
   console.log(cart)
   res.render('cart', {cart})
   }
+  catch {((err) => console.log(err))}
+})
+//Delete an item from cart:
+router.delete('/cart/:itemId', async(req, res) => {
+  try{ 
+  const { itemId } = req.params
+  const {specificUser} = req.session.user
+  const cart = await Cart.findOne({ user: specificUser_id})
+  const itemIndex = cart.items.findIndex(item => item.product.equals(specificProduct._id))
+  cart.items.splice(itemIndex, 1)
+  const updatedCart = await Cart.findByIdAndUpdate(cart._id, cart, { new: true })
+  const updatedUser = await User.findByIdAndUpdate(specificUser._id, {cart: updatedCart}, {new: true})
+  res.redirect(`/products/products/cart/${updatedCart._id}`)
+  }
+  catch {((err) => console.log(err))}
+})
+// Increment the quantity of an item in the cart:
+router.post('/cart/:itemId/increment', async(req, res) => {
+  try {
+    const {itemId} = req.params
+    const {specificUser} = req.session.user
+    const cart = await Cart.findOne({ user: specificUser._id })
+    const anItem = cart.items.findOne(item => item.product.equals(itemId))
+    item.quantity +=1 
+    const updatedCart = await Cart.findByIdAndUpdate(cart._id, cart, { new: true })
+    res.redirect('/products/cart')
+  } 
+  catch {((err) => console.log(err))}
+})
+// Decrement the quantity of an item in the cart:
+router.post('/cart/:itemId/decrement', async(req, res) => {
+  try {
+    const {itemId} = req.params
+    const {specificUser} = req.session.user
+    const cart = await Cart.findOne({ user: specificUser._id })
+    const anItem = cart.items.findOne(item => item.product.equals(itemId))
+  } 
   catch {((err) => console.log(err))}
 })
 module.exports = router;

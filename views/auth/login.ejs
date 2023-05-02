@@ -1,4 +1,5 @@
 <h1>Login</h1>
+
 <form action="/auth/login" method="POST">
     <label>Username: <input name="username" required/></label>
     <label>Password: <input type="password" name="password" required/></label>
@@ -7,4 +8,5 @@
 
 <% if(typeof errorMessage !== 'undefined') { %>
     <p style="color: red"><%- errorMessage %></p>
+    <a href="/auth/signup">Click to sigup</a>
     <% } %>
