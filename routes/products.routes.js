@@ -91,12 +91,12 @@ router.post('/cart/:productId', isLoggedIn, async(req, res) => {
   try{
     const {productId} = req.params
     const specificProduct = await Product.findById(productId)
-    const specificUser = req.session.user
-    const cart = await Cart.findOne({user: specificUser._id})
+    const specificUser = req.session.user._id
+    const cart = await Cart.findOne({user: specificUser})
     let cartId
     if (!cart){
-      const newCart = await Cart.create({user: specificUser._id, items:[{product: specificProduct}] })
-      const updatedUser = await User.findByIdAndUpdate(specificUser._id, {cart: newCart}, {new: true})
+      const newCart = await Cart.create({user: specificUser, items:[{product: specificProduct}] })
+      const updatedUser = await User.findByIdAndUpdate(specificUser, {cart: newCart}, {new: true})
       cartId = newCart._id
     } else { 
       let updatedCart
@@ -108,7 +108,7 @@ router.post('/cart/:productId', isLoggedIn, async(req, res) => {
         item.quantity++
         updatedCart = await Cart.findByIdAndUpdate(cart._id, {$set: {[`items.${itemIndex}`]: item}}, {new: true})
       }
-      const updatedUser = await User.findByIdAndUpdate(specificUser._id, {cart: updatedCart}, {new: true})
+      const updatedUser = await User.findByIdAndUpdate(specificUser, {cart: updatedCart}, {new: true})
       cartId = updatedCart._id
     }
     res.redirect(`/products/cart/${cartId}`)
@@ -123,21 +123,30 @@ router.get('/cart/:cartId', isLoggedIn, async(req, res) => {
     const {cartId} = req.params
     // The following line is written by antonio:
   const cart = await Cart.findById(cartId).populate({path: "items", populate: {path: "product", model: "Product"}})
+  const filterCart = cart.items.filter(item => {
+    if (item.product !== null){
+      return item 
+    }
+  })
+  console.log(filterCart)
+  cart.items = filterCart
   res.render('cart', {cart})
   }
   catch {((err) => console.log(err))}
 })
 //Delete an item from cart:
-router.delete('/cart/:itemId', async(req, res) => {
+router.post('/cart/:cartId/:itemId/delete', async(req, res) => {
   try{ 
-  const { itemId } = req.params
-  const {specificUser} = req.session.user
-  const cart = await Cart.findOne({ user: specificUser_id})
-  const itemIndex = cart.items.findIndex(item => item.product.equals(specificProduct._id))
+    const {itemId, cartId} = req.params
+    const specificUser = req.session.user.username
+    console.log(itemId, specificUser, req.session)
+    const cart = await Cart.findOne({ _id: cartId})
+    console.log(cart)
+  const itemIndex = cart.items.findIndex(item => item.product.equals(itemId))
   cart.items.splice(itemIndex, 1)
   const updatedCart = await Cart.findByIdAndUpdate(cart._id, cart, { new: true })
-  const updatedUser = await User.findByIdAndUpdate(specificUser._id, {cart: updatedCart}, {new: true})
-  res.redirect(`/products/products/cart/${updatedCart._id}`)
+  const updatedUser = await User.findOneAndUpdate({username: specificUser}, {cart: updatedCart}, {new: true})
+  res.redirect(`/products/cart/${cartId}`)
   }
   catch {((err) => console.log(err))}
 })
@@ -145,10 +154,8 @@ router.delete('/cart/:itemId', async(req, res) => {
 router.post('/cart/:cartId/:itemId/increment', async(req, res) => {
   try {
     const {itemId, cartId} = req.params
-    const {specificUser} = req.session.user
-    console.log(itemId, specificUser)
+    const specificUser = req.session.user._id
     const cart = await Cart.findOne({ _id: cartId})
-    console.log(cart)
     const anItem = cart.items.find(item => item.product.equals(itemId))
     anItem.quantity +=1 
     const updatedCart = await Cart.findByIdAndUpdate(cart._id, cart, { new: true })
@@ -160,10 +167,8 @@ router.post('/cart/:cartId/:itemId/increment', async(req, res) => {
 router.post('/cart/:cartId/:itemId/decrement', async(req, res) => {
   try {
     const {itemId, cartId} = req.params
-    const {specificUser} = req.session.user
-    console.log(itemId, specificUser)
+    const specificUser = req.session.user._id
     const cart = await Cart.findOne({ _id: cartId})
-    console.log(cart)
     const anItem = cart.items.find(item => item.product.equals(itemId))
     if (anItem.quantity === 1) {
       const itemIndex = cart.items.findIndex(item => item._id.equals(itemId));

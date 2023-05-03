@@ -41,7 +41,7 @@ router.post("/login", async(req, res, next) => {
     if (!user) {
         res.render('auth/login', {errorMessage: 'You are not a user, plz signup'})
     } else if (user && bcryptjs.compareSync(req.body.password, user.passwordHash)) {
-        req.session.user = {username: user.username}
+        req.session.user = {username: user.username, _id: user._id}
         res.redirect('/profile')
     } else {
         res.render('auth/login', {errorMessage: 'Remember your password plz'})
