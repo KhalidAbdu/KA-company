@@ -7,11 +7,11 @@
 <% let cartTotal = 0 %>
 <% cart.items.forEach(item => { %>
   <p><%- item.product.name %> 
-    <form action="/cart/<%- item._id %>/increment" method="POST">
+    <form action = "/products/cart/<%- cart._id %>/<%- item.product._id %>/increment" method="POST">
       <button type="submit">+</button>
     </form>
     No of items: <%- item.quantity %>
-    <form action="/cart/<%- item._id %>/decrement" method="POST">
+    <form action = "/products/cart/<%- item.product._id %>/decrement" method="POST">
       <button type="submit">-</button>
     </form>
    Price: $<%- item.product.price * item.quantity %></p>

@@ -123,7 +123,6 @@ router.get('/cart/:cartId', isLoggedIn, async(req, res) => {
     const {cartId} = req.params
     // The following line is written by antonio:
   const cart = await Cart.findById(cartId).populate({path: "items", populate: {path: "product", model: "Product"}})
-  console.log(cart)
   res.render('cart', {cart})
   }
   catch {((err) => console.log(err))}
@@ -143,15 +142,17 @@ router.delete('/cart/:itemId', async(req, res) => {
   catch {((err) => console.log(err))}
 })
 // Increment the quantity of an item in the cart:
-router.post('/cart/:itemId/increment', async(req, res) => {
+router.post('/cart/:cartId/:itemId/increment', async(req, res) => {
   try {
-    const {itemId} = req.params
+    const {itemId, cartId} = req.params
     const {specificUser} = req.session.user
-    const cart = await Cart.findOne({ user: specificUser._id })
-    const anItem = cart.items.findOne(item => item.product.equals(itemId))
-    item.quantity +=1 
+    console.log(itemId, specificUser)
+    const cart = await Cart.findOne({ _id: cartId})
+    console.log(cart)
+    const anItem = cart.items.find(item => item.product.equals(itemId))
+    anItem.quantity +=1 
     const updatedCart = await Cart.findByIdAndUpdate(cart._id, cart, { new: true })
-    res.redirect('/products/cart')
+    res.redirect(`/products/cart/${cartId}`)
   } 
   catch {((err) => console.log(err))}
 })
