@@ -11,7 +11,7 @@
       <button type="submit">+</button>
     </form>
     No of items: <%- item.quantity %>
-    <form action = "/products/cart/<%- item.product._id %>/decrement" method="POST">
+    <form action = "/products/cart/<%- cart._id %>/<%- item.product._id %>/decrement" method="POST">
       <button type="submit">-</button>
     </form>
    Price: $<%- item.product.price * item.quantity %></p>
