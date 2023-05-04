@@ -6,11 +6,11 @@
           <div class="card-body">
             <form action="/auth/signup" method="POST">
               <div class="form-floating mb-3">
-                <input class="form-control" id="username" name="username" type="text" placeholder="Enter your username" value="<% if(typeof errorMessage !== 'undefined') { %><%- data.username %><% } %>">
+                <input class="form-control" id="username" name="username" type="text" required placeholder="Enter your username" value="<% if(typeof errorMessage !== 'undefined') { %><%- data.username %><% } %>">
                 <label for="username">Username</label>
               </div>
               <div class="form-floating mb-3">
-                <input class="form-control" id="password" name="password" type="password" placeholder="Enter your password">
+                <input class="form-control" id="password" name="password" type="password" placeholder="Enter your password" required>
                 <label for="password">Password</label>
               </div>
               <div class="d-flex align-items-center justify-content-center mt-4 mb-0">
@@ -23,7 +23,7 @@
             </div>
             <% } %>
           </div>
-        </div>
+        </div> 
       </div>
     </div>
   </div>
