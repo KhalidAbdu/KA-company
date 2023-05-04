@@ -1,4 +1,4 @@
-<section class="vh-100" style="background-color: #b1e180;">
+<section class="vh-100" style="background-color: #8a9380;">
   <div class="container h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col">
@@ -44,11 +44,10 @@
                   </div>
                 </div>
                 <div class="col-md-2 d-flex justify-content-center">
-                  <div>
-                    <form action="/products/cart/<%- cart._id %>/<%- item.product._id %>/delete" method="POST">
-                      <button type="submit">Remove</button>
-                    </form>
-                  </div>
+                  <form action="/products/cart/<%- cart._id %>/<%- item.product._id %>/delete" method="POST">
+                    <button type="submit" class="btn btn-outline-danger btn-sm">Remove Item</button>
+                  </form>
+                </div>
                 </div>
               </div>
             </div>
