@@ -181,4 +181,18 @@ router.post('/cart/:cartId/:itemId/decrement', async(req, res) => {
   } 
   catch {((err) => console.log(err))}
 })
+//Handle the search form:
+router.post('/search', async(req, res) => {
+  try {
+    const searchProduct = req.body.name
+    const specificProducts = await Product.find({ name: searchProduct })
+    console.log(searchProduct)
+    res.render('search-result', {specificProducts} )
+  }  
+  catch {((err) => console.log(err))}
+})
+// View the search form:
+router.get('/search', async(req, res) => {
+  res.render('search-result')
+})
 module.exports = router;

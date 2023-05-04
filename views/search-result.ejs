@@ -1,0 +1,16 @@
+<h1>Search Results</h1>
+<ul>
+  <% specificProducts.forEach(product => { %>
+    <img src="<%- product.img.path %>">
+    <li>
+      <%- product.name %>
+      <%- product.price %>$
+      <a href="/products/edit/<%- product._id %>">EDIT</a>
+      <a href="/products/delete/<%- product._id %>">DELETE</a>
+      <a href="/products/details/<%- product._id %>">READ MORE</a>
+      <form action="/products/cart/<%- product._id %>" method="POST">
+        <button type="submit">ADD TO CART</button>
+      </form> 
+    </li>
+  <% }); %>
+</ul>
