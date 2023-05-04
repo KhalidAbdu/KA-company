@@ -1,12 +1,30 @@
-<h1>Signup</h1>
-<form action="/auth/signup" method="POST">
-    <label>Username: <input name="username" required value="<% if(typeof errorMessage !== 'undefined') { %><%- data.username 
-    %><% } %>"
-    /></label>
-    <label>Password: <input type="password" name="password" required/></label>
-    <button type="submit">SignUp</button>
-</form>
-
-<% if(typeof errorMessage !== 'undefined') { %>
-    <p style="color: red"><%- errorMessage %></p>
-    <% } %>
+<div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-md-8">
+        <div class="card shadow-lg border-0 rounded-lg mt-5">
+          <div class="card-header"><h3 class="text-center font-weight-light my-4">Sign Up</h3></div>
+          <div class="card-body">
+            <form action="/auth/signup" method="POST">
+              <div class="form-floating mb-3">
+                <input class="form-control" id="username" name="username" type="text" placeholder="Enter your username" value="<% if(typeof errorMessage !== 'undefined') { %><%- data.username %><% } %>">
+                <label for="username">Username</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input class="form-control" id="password" name="password" type="password" placeholder="Enter your password">
+                <label for="password">Password</label>
+              </div>
+              <div class="d-flex align-items-center justify-content-center mt-4 mb-0">
+                <button class="btn btn-primary" type="submit">Sign Up</button>
+              </div>
+            </form>
+            <% if(typeof errorMessage !== 'undefined') { %>
+            <div class="text-center mt-3">
+              <p style="color: red"><%- errorMessage %></p>
+            </div>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

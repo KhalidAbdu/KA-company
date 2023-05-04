@@ -1,22 +1,23 @@
-<h1>Products</h1>
-<ul>
+<div class="row">
     <% allProducts.forEach(product => { %>
-            <img src="<%- product.img.path %>">
-        <li>
-            <%- product.name %>
-            <%- product.price  %>$
-            <a href="/products/edit/<%- product._id %>">EDIT</a>
-            <a href="/products/delete/<%- product._id %>">DELETE</a>
-            <a href="/products/details/<%- product._id %>">READ MORE</a>
-        
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            <div class="card">
+                <img src="<%- product.img.path %>" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title"><%- product.name %></h5>
+                    <p class="card-text"><%- product.price %>$</p>
+                    <a href="/products/edit/<%- product._id %>" class="btn btn-primary">EDIT</a>
+                    <a href="/products/delete/<%- product._id %>" class="btn btn-danger">DELETE</a>
+                    <a href="/products/details/<%- product._id %>" class="btn btn-info">READ MORE</a>
+                    <form action="/products/cart/<%- product._id %>" method="POST">
+                        <button type="submit" class="btn btn-success">ADD TO CART</button>
+                    </form> 
+                </div>
+            </div>
+        </div>
+    <% }); %>
+</div>
 
 
-            <form action="/products/cart/<%- product._id %>" method="POST">
-    <button type="submit">ADD TO CART</button>
-</form> 
-        </li>
-
-   <% }); %>
-</ul>
 
 
