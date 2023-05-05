@@ -1,59 +1,61 @@
-<section class="vh-100" style="background-color: #8a9380;">
+<section class="vh-100" style="background-color: #ffffff;">
   <div class="container h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col">
         <p><span class="h2">Shopping Cart </span></p>
 
         <% let cartTotal = 0 %>
-        <% cart.items.forEach(item => { %>
-          <div class="card mb-4">
-            <div class="card-body p-4">
+        <div class="cart-items-container" style="max-height: 400px; overflow-y: auto;">
+          <% cart.items.forEach(item => { %>
+            <div class="card mb-4">
+              <div class="card-body p-4">
+                <div class="row align-items-center">
+                  <div class="col-md-2">
+                    <img src="<%- item.product.img.path %>" class="img-fluid" alt="<%- item.product.name %>">
+                  </div>
+                  <div class="col-md-2 d-flex justify-content-center">
+                    <div>
+                      <p class="small text-muted mb-4 pb-2">Name</p>
+                      <p class="lead fw-normal mb-0"><%- item.product.name %></p>
+                    </div>
+                  </div>
 
-              <div class="row align-items-center">
-                <div class="col-md-2">
-                  <img src="<%- item.product.img.path %>" class="img-fluid" alt="<%- item.product.name %>">
-                </div>
-                <div class="col-md-2 d-flex justify-content-center">
-                  <div>
-                    <p class="small text-muted mb-4 pb-2">Name</p>
-                    <p class="lead fw-normal mb-0"><%- item.product.name %></p>
+                  <div class="col-md-2 d-flex justify-content-center">
+                    <div>
+                      <p class="small text-muted mb-4 pb-2">Quantity</p>
+
+                      <form action="/products/cart/<%- cart._id %>/<%- item.product._id %>/increment" method="POST">
+                        <button type="submit" class="btn btn-sm btn-outline-primary">+</button>
+                      </form>
+                      <p class="lead fw-normal mb-0"><%- item.quantity %></p>
+                      <form action="/products/cart/<%- cart._id %>/<%- item.product._id %>/decrement" method="POST">
+                        <button type="submit" class="btn btn-sm btn-outline-primary">-</button>
+                      </form>
+                    </div>
                   </div>
-                </div>
-                <div class="col-md-2 d-flex justify-content-center">
-                  <div>
-                    <p class="small text-muted mb-4 pb-2">Quantity</p>
-                    <form action="/products/cart/<%- cart._id %>/<%- item.product._id %>/increment" method="POST">
-                      <button type="submit">+</button>
+                  <div class="col-md-2 d-flex justify-content-center">
+                    <div>
+                      <p class="small text-muted mb-4 pb-2">Price</p>
+                      <p class="lead fw-normal mb-0">$<%- item.product.price %></p>
+                    </div>
+                  </div>
+                  <div class="col-md-2 d-flex justify-content-center">
+                    <div>
+                      <p class="small text-muted mb-4 pb-2">Total</p>
+                      <p class="lead fw-normal mb-0">$<%- item.product.price * item.quantity %></p>
+                    </div>
+                  </div>
+                  <div class="col-md-2 d-flex justify-content-center">
+                    <form action="/products/cart/<%- cart._id %>/<%- item.product._id %>/delete" method="POST">
+                      <button type="submit" class="btn btn-outline-danger btn-sm">Remove Item</button>
                     </form>
-                    <p class="lead fw-normal mb-0"><%- item.quantity %></p>
-                    <form action="/products/cart/<%- cart._id %>/<%- item.product._id %>/decrement" method="POST">
-                      <button type="submit">-</button>
-                    </form>
                   </div>
-                </div>
-                <div class="col-md-2 d-flex justify-content-center">
-                  <div>
-                    <p class="small text-muted mb-4 pb-2">Price</p>
-                    <p class="lead fw-normal mb-0">$<%- item.product.price %></p>
-                  </div>
-                </div>
-                <div class="col-md-2 d-flex justify-content-center">
-                  <div>
-                    <p class="small text-muted mb-4 pb-2">Total</p>
-                    <p class="lead fw-normal mb-0">$<%- item.product.price * item.quantity %></p>
-                  </div>
-                </div>
-                <div class="col-md-2 d-flex justify-content-center">
-                  <form action="/products/cart/<%- cart._id %>/<%- item.product._id %>/delete" method="POST">
-                    <button type="submit" class="btn btn-outline-danger btn-sm">Remove Item</button>
-                  </form>
-                </div>
                 </div>
               </div>
             </div>
-          </div>
-          <% cartTotal += item.product.price * item.quantity %>
-        <% }) %>
+            <% cartTotal += item.product.price * item.quantity %>
+          <% }) %>
+        </div>
 
         <div class="card mb-5">
           <div class="card-body p-4">
@@ -69,7 +71,7 @@
         </div>
 
         <div class="d-flex justify-content-end">
-          <button type="button" class="btn btn-light btn-lg me-2">Continue shopping</button>
+          <a href="/products/products" class="btn btn-light btn-lg me-2">Continue shopping</a>
   <button type="button" class="btn btn-primary btn-lg">Checkout</button>
 </div>
 
