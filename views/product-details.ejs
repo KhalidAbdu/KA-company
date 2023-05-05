@@ -1,4 +1,16 @@
-<h1><%- oneProduct.name %></h1>
-<img src="<%- oneProduct.img.path %>">
-<p><%- oneProduct.price %>$</p>
-<p>Description: <%- oneProduct.description %></p>
+<div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <img src="<%- oneProduct.img.path %>" class="img-fluid mx-auto d-block img-thumbnail" alt="<%- oneProduct.name %>">
+      </div>
+      <div class="col-lg-6">
+        <h1><%- oneProduct.name %></h1>
+        <p class="lead"><%- oneProduct.price %> $</p>
+        <p><%- oneProduct.description %></p>
+        <form action="/products/cart/<%- oneProduct._id %>" method="POST">
+          <button type="submit" class="btn btn-outline-success mt-3" style="border-radius: 25px; padding: 10px 20px;">Add to cart</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  

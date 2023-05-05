@@ -27,7 +27,7 @@
                       <form action="/products/cart/<%- cart._id %>/<%- item.product._id %>/increment" method="POST">
                         <button type="submit" class="btn btn-sm btn-outline-primary">+</button>
                       </form>
-                      <p class="lead fw-normal mb-0"><%- item.quantity %></p>
+                      <p class="lead fw-normal mb-0"  style="color: black;"><%- item.quantity %></p>
                       <form action="/products/cart/<%- cart._id %>/<%- item.product._id %>/decrement" method="POST">
                         <button type="submit" class="btn btn-sm btn-outline-primary">-</button>
                       </form>
@@ -36,13 +36,13 @@
                   <div class="col-md-2 d-flex justify-content-center">
                     <div>
                       <p class="small text-muted mb-4 pb-2">Price</p>
-                      <p class="lead fw-normal mb-0">$<%- item.product.price %></p>
+                      <p class="lead fw-normal mb-0"  style="color: black;">$<%- item.product.price %></p>
                     </div>
                   </div>
                   <div class="col-md-2 d-flex justify-content-center">
                     <div>
                       <p class="small text-muted mb-4 pb-2">Total</p>
-                      <p class="lead fw-normal mb-0">$<%- item.product.price * item.quantity %></p>
+                      <p class="lead fw-normal mb-0"  style="color: black;">$<%- item.product.price * item.quantity %></p>
                     </div>
                   </div>
                   <div class="col-md-2 d-flex justify-content-center">
