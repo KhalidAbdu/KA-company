@@ -1,8 +1,85 @@
-<h1>Edit Product</h1>
-<form action="/products/edit/<%- specificProduct._id %>" method="POST" enctype="multipart/form-data">
-    <label>Name: <input type="text" name="name" value="<%- specificProduct.name %>"/></label>
-    <label>Price: <input type="number" name="price" value="<%- specificProduct.price %>"/></label>
-    <label>Description: <input type="text" name="description" value="<%- specificProduct.description %>"/></label>
-    <label>Image: <input type="file" name="img" accept="image/png, image/jpg, image/jpeg"/></label>
-    <button type="submit">Edit</button>
-</form>
+<section class="vh-100" style="background-color: #2779e2;">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-xl-9">
+  
+          <h1 class="text-white mb-4">Edit a product</h1>
+  
+          <div class="card" style="border-radius: 15px;">
+            <div class="card-body">
+  
+              <form action="/products/edit/<%- specificProduct._id %>" method="POST" enctype="multipart/form-data">
+                <div class="row align-items-center pt-4 pb-3">
+                  <div class="col-md-3 ps-5">
+  
+                    <h6 class="mb-0">Name</h6>
+  
+                  </div>
+                  <div class="col-md-9 pe-5">
+  
+                    <input type="text" class="form-control form-control-lg" name="name" value="<%- specificProduct.name %>" />
+  
+                  </div>
+                </div>
+  
+                <hr class="mx-n3">
+  
+                <div class="row align-items-center py-3">
+                  <div class="col-md-3 ps-5">
+  
+                    <h6 class="mb-0">Price</h6>
+  
+                  </div>
+                  <div class="col-md-9 pe-5">
+  
+                    <input type="number" class="form-control form-control-lg" name="price" value="<%- specificProduct.price %>" />
+  
+                  </div>
+                </div>
+  
+                <hr class="mx-n3">
+  
+                <div class="row align-items-center py-3">
+                  <div class="col-md-3 ps-5">
+  
+                    <h6 class="mb-0">Description</h6>
+  
+                  </div>
+                  <div class="col-md-9 pe-5">
+  
+                    <textarea class="form-control" rows="3" name="description"><%- specificProduct.description %></textarea>
+  
+                  </div>
+                </div>
+  
+                <hr class="mx-n3">
+  
+                <div class="row align-items-center py-3">
+                  <div class="col-md-3 ps-5">
+  
+                    <h6 class="mb-0">Image</h6>
+  
+                  </div>
+                  <div class="col-md-9 pe-5">
+  
+                    <input type="file" class="form-control form-control-lg" name="img" accept="image/png, image/jpg, image/jpeg" />
+  
+                  </div>
+                </div>
+  
+                <hr class="mx-n3">
+  
+                <div class="px-5 py-4">
+                  <button type="submit" class="btn btn-primary btn-lg">Edit</button>
+                </div>
+  
+              </form>
+  
+            </div>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+  </section>
+  

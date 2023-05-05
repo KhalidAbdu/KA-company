@@ -1,9 +1,88 @@
-<h1>Create Product</h1>
-<form action="/products/create" method="POST" enctype="multipart/form-data">
-    <label>Name: <input type="text" name="name"/></label>
-    <label>Price: <input type="number" name="price"/></label>
-    <label>Description: <input type="text" name="description"/></label>
-    <label>Image: <input type="file" name="img" accept="image/png, image/jpg, image/jpeg"/></label>
-    <button type="submit">Create</button>
-</form> 
+<section class="vh-100" style="background-color: #2779e2;">
+    <div class="container h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-xl-9">
+  
+          <h1 class="text-white mb-4">Add a new product</h1>
+  
+          <div class="card" style="border-radius: 15px;">
+            <div class="card-body">
+  
+              <form action="/products/create" method="POST" enctype="multipart/form-data">
+  
+                <div class="row align-items-center pt-4 pb-3">
+                  <div class="col-md-3 ps-5">
+  
+                    <h6 class="mb-0">Name</h6>
+  
+                  </div>
+                  <div class="col-md-9 pe-5">
+  
+                    <input type="text" class="form-control form-control-lg" name="name" />
+  
+                  </div>
+                </div>
+  
+                <hr class="mx-n3">
+  
+                <div class="row align-items-center py-3">
+                  <div class="col-md-3 ps-5">
+  
+                    <h6 class="mb-0">Price</h6>
+  
+                  </div>
+                  <div class="col-md-9 pe-5">
+  
+                    <input type="number" class="form-control form-control-lg" name="price" />
+  
+                  </div>
+                </div>
+  
+                <hr class="mx-n3">
+  
+                <div class="row align-items-center py-3">
+                  <div class="col-md-3 ps-5">
+  
+                    <h6 class="mb-0">Description</h6>
+  
+                  </div>
+                  <div class="col-md-9 pe-5">
+  
+                    <textarea class="form-control" rows="3" name="description" placeholder="Enter a description"></textarea>
+  
+                  </div>
+                </div>
+  
+                <hr class="mx-n3">
+  
+                <div class="row align-items-center py-3">
+                  <div class="col-md-3 ps-5">
+  
+                    <h6 class="mb-0">Image</h6>
+  
+                  </div>
+                  <div class="col-md-9 pe-5">
+  
+                    <input class="form-control form-control-lg" id="formFileLg" type="file" name="img" accept="image/png, image/jpg, image/jpeg" />
+                    <div class="small text-muted mt-2">Upload an image for the product. Max file size 50 MB</div>
+  
+                  </div>
+                </div>
+  
+                <hr class="mx-n3">
+  
+                <div class="px-5 py-4">
+                  <button type="submit" class="btn btn-primary btn-lg">Create</button>
+                </div>
+  
+              </form>
+  
+            </div>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+  </section>
+  
 
