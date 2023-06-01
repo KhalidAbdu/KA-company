@@ -4,7 +4,7 @@ This is a Node.js web application that allows users to create and manage product
 
 ## Getting Started:
 
-The server will start on port 3000 by default. You can access the web application by navigating to http://localhost:3000 in your web browser.
+The server will start on port 3000 by default. You can access the web application by navigating to https://ka-company.adaptable.app in your web browser.
 
 ## Features:
 
